@@ -62,10 +62,10 @@ if __name__ == '__main__':
             if message.mentions:
                 try:
                     if member[0].nick != message.mentions[0].display_name:
-                        pfp = await message.mentions[0].avatar.read()
-                        await client.user.edit(avatar=pfp)
                         name = message.mentions[0].display_name
                         await member[0].edit(nick = name)
+                        pfp = await message.mentions[0].avatar.read()
+                        await client.user.edit(avatar=pfp)
                     else:
                         print("already impersonating")
 
