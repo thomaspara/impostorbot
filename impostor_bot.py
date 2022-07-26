@@ -25,10 +25,10 @@ if __name__ == '__main__':
     bot_channel_names = config["bot_channels"]
     print(bot_channel_names)
 
-    async def once_done(sink: discord.sinks.mp3, channel: discord.TextChannel, name:str, *args):  # Our voice client already passes these in.
-        user_recorded = [f"<@{user_id}>" for user_id, audio in sink.audio_data.items()]
+    async def once_done(sink: discord.sinks.mp3, channel: discord.TextChannel, name:str, calling_user:str, *args):  # Our voice client already passes these in.
+        user_recorded = [f"<@{user_id}>" for user_id, audio in sink.audio_data.items() if user_id == calling_user]
         await sink.vc.disconnect()  # Disconnect from the voice channel.
-        files = [discord.File(audio.file, f"{user_id}-{name}.{sink.encoding}") for user_id, audio in sink.audio_data.items()]  # List down the files.
+        files = [discord.File(audio.file, f"{user_id}-{name}.{sink.encoding}") for user_id, audio in sink.audio_data.items() if user_id == calling_user]  # List down the files.
         for f in files:
             with open(f"recordings/{f.filename}", "wb") as output: 
                 output.write(f.fp.getbuffer())
@@ -42,7 +42,7 @@ if __name__ == '__main__':
             print(member)
             for channel in guild.channels:
                 if channel.name == bot_channel_names[0]:
-                    await channel.send("Bienvenidos, Soy el impuster de amogus\n`This bot is presented as is with no guarantee or warranty. By using this bot, you accept all liability that may come as a result of using this bot. You agree not to record any person or persons without their express and continuous consent.`")
+                    await channel.send("Bienvenidos, Soy el impuster de amogus")
 
     @client.event
     async def on_message(message):
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             if "record start " in message.content:
                 f_name = remove_prefix(message.content, "$impostor record start ")
                 vc = await message.author.voice.channel.connect()
-                vc.start_recording(discord.sinks.mp3.MP3Sink(), once_done,message.channel,f_name)
+                vc.start_recording(discord.sinks.mp3.MP3Sink(), once_done, message.channel, f_name, message.author.id)
 
             if "record stop" in message.content:
                 for vc in client.voice_clients:
