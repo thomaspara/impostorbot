@@ -4,8 +4,14 @@ import asyncio
 
 def remove_prefix(text, prefix):
     return text[text.startswith(prefix) and len(prefix):]
-
+help_msg='''Usage:
+`$impostor help` shows this message
+`$impostor record start RECORDING-NAME` starts a recording in the room that you are in. `RECORDING-NAME` will be the name of the recording
+`$impostor record stop` stops the recording
+`$impostor @USER RECORDING-NAME` plays the given user's recording if it exists. `RECORDING-NAME` is the name of the recording, `@USER` is the name of the user
+`$impostor #!CHANNEL @USER RECORDING-NAME` plays the given user's recording if it exists in specified channel. `RECORDING-NAME` is the name of the recording, `@USER` is the name of the user, #!CHANNEL is the name of the voice channel'''
 if __name__ == '__main__':
+    
     intents = discord.Intents.all()
 
     f = open('config.json')
@@ -49,6 +55,9 @@ if __name__ == '__main__':
         if config["bot_user"] not in roles:
             return
         if message.content.startswith('$impostor'):
+            if "$impostor help" == message.content or "$impostor" == message.content:
+                await message.channel.send(help_msg)
+
             if "reset" in message.content:
                 await member[0].edit(nick = "IMPOSTOR")
                 with open('pfp.jpg', 'rb') as image:
