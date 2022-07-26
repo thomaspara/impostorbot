@@ -32,6 +32,9 @@ if __name__ == '__main__':
         for guild in client.guilds:
             member.append(guild.get_member(client.user.id))
             print(member)
+            for channel in guild.channels:
+                if channel.name == bot_channel_names[0]:
+                    await channel.send("Bienvenidos, Soy el impuster de amogus")
 
     @client.event
     async def on_message(message):
