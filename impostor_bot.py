@@ -9,7 +9,7 @@ help_msg='''Usage:
 `$impostor record start RECORDING-NAME` starts a recording in the room that you are in. `RECORDING-NAME` will be the name of the recording
 `$impostor record stop` stops the recording
 `$impostor @USER RECORDING-NAME` plays the given user's recording if it exists. `RECORDING-NAME` is the name of the recording, `@USER` is the name of the user
-`$impostor #!CHANNEL @USER RECORDING-NAME` plays the given user's recording if it exists in specified channel. `RECORDING-NAME` is the name of the recording, `@USER` is the name of the user, #!CHANNEL is the name of the voice channel'''
+`$impostor #!CHANNEL @USER RECORDING-NAME` plays the given user's recording if it exists in specified channel. `RECORDING-NAME` is the name of the recording, `@USER` is the name of the user, `#!CHANNEL` is the name of the voice channel'''
 if __name__ == '__main__':
     
     intents = discord.Intents.all()
