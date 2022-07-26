@@ -11,7 +11,9 @@ if __name__ == '__main__':
     f = open('config.json')
     config = json.load(f)
     f.close()
-
+    if not config["eula"]:
+        print("please accept the end user licence agreement")
+        quit()
     client = discord.Client(intents=intents)
     member = []
     bot_channel_names = config["bot_channels"]
@@ -34,7 +36,7 @@ if __name__ == '__main__':
             print(member)
             for channel in guild.channels:
                 if channel.name == bot_channel_names[0]:
-                    await channel.send("Bienvenidos, Soy el impuster de amogus")
+                    await channel.send("Bienvenidos, Soy el impuster de amogus\n`This bot is presented as is with no guarantee or warranty. By using this bot, you accept all liability that may come as a result of using this bot. You agree not to record any person or persons without their express and continuous consent.`")
 
     @client.event
     async def on_message(message):
@@ -43,7 +45,9 @@ if __name__ == '__main__':
             return
         if message.author == client.user:
             return
-
+        roles = [r.name for r in message.author.roles]
+        if config["bot_user"] not in roles:
+            return
         if message.content.startswith('$impostor'):
             if "reset" in message.content:
                 await member[0].edit(nick = "IMPOSTOR")
