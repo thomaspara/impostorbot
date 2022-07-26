@@ -31,6 +31,7 @@ if __name__ == '__main__':
         await channel.send(f"finished recording audio for: {', '.join(user_recorded)}.", files=files)  # Send a message with the accumulated files.
     @client.event
     async def on_ready():
+        await client.change_presence(status=discord.Status.invisible)
         for guild in client.guilds:
             member.append(guild.get_member(client.user.id))
             print(member)
